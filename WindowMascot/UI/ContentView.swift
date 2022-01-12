@@ -9,13 +9,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var window: NSWindow?
-    
     var body: some View {
         VStack {
             MainView()
-                .edgesIgnoringSafeArea(.top)
-        }//.background(WindowAccessor(window: $window))
+        }
     }
 }
 
@@ -34,27 +31,31 @@ struct MainView: View {
     }
 }
 
-/*
-// https://stackoverflow.com/questions/63432700/how-to-access-nswindow-from-main-app-using-only-swiftui
-struct WindowAccessor: NSViewRepresentable {
-    @Binding var window: NSWindow?
+/// Settings view
+struct ControlView: View {
+    @ObservedObject private var gameManager = GameManager.shared
     
-    func makeNSView(context: Context) -> NSView {
-        let view = NSView()
-        DispatchQueue.main.async {
-            self.window = view.window
-            if window != nil{
-                transparentizeWindow(window!)
-                placeWindowFrontmost(window!)
-                GameManager.shared.setWindow(window!)
-            }
+    var body: some View {
+        Form {
+            // FPS
+            Text("sec/frame: \(gameManager.secondPerFrame)")
+            Slider(value: $gameManager.secondPerFrame, in: GameManager.secondPerFrameRange)
         }
-        return view
+        .padding(20)
+        .frame(width: 350, height: 100)
     }
-    
-    func updateNSView(_ nsView: NSView, context: Context) {}
 }
- */
+
+/// WindowMascot > Preference
+struct GeneralSettingsView: View {
+    var body: some View {
+        Form {
+            Text("無")
+        }
+        .padding(20)
+        .frame(width: 350, height: 100)
+    }
+}
 
 /*
 struct ContentView_Previews: PreviewProvider {

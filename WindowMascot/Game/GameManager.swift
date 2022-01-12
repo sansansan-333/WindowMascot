@@ -14,10 +14,15 @@ class GameManager: ObservableObject{
     static let shared = GameManager()
     private var timer: Timer?
     
-    static let secondPerFrame = 0.06
+    @Published var secondPerFrame = 0.016 {
+        didSet(newValue){
+            updateTimer()
+        }
+    }
+    static let secondPerFrameRange = 0.016...1
     
     var window: NSWindow?
-    /// DO NOT change this directly. Use updateWindowSize to set.
+    /// DO NOT change this variable directly. Use updateWindowSize to set.
     @Published var windowSize: NSSize?
     @Published var isReadyToDraw: Bool = false
     var isReadyToStartGame: Bool{
@@ -38,7 +43,7 @@ class GameManager: ObservableObject{
     func Awake(){
         logger.disable()
         
-        timer = Timer.scheduledTimer(withTimeInterval: GameManager.secondPerFrame, repeats: true){ tempTimer in
+        timer = Timer.scheduledTimer(withTimeInterval: GameManager.shared.secondPerFrame, repeats: true){ tempTimer in
             if self.isReadyToStartGame{
                 if !self.isStarted{
                     self.Start()
@@ -62,7 +67,7 @@ class GameManager: ObservableObject{
     
     /// Update is called once per frame
     private func Update(){
-        translateWindow(window!, relativePosition: NSPoint(x: 1, y: 2))
+        translateWindow(window!, relativePosition: NSPoint(x: 1, y: 1))
         
         logger.write(log: "Update \(String(describing: window?.title))\n")
         logger.write(log: "\(String(describing: NSApplication.shared.keyWindow?.title))\n")
@@ -88,13 +93,22 @@ class GameManager: ObservableObject{
         }
     }
     
+    // will be called when secondPerFrame is changed
+    private func updateTimer(){
+        stopTimer()
+        
+        timer = Timer.scheduledTimer(withTimeInterval: GameManager.shared.secondPerFrame, repeats: true){ tempTimer in
+            if self.isReadyToStartGame{
+                if !self.isStarted{
+                    self.Start()
+                }
+                self.Update()
+            }
+        }
+    }
+    
     ///
     private func stopTimer(){
         timer?.invalidate()
     }
-}
-
-
-func sub(_ p1: NSPoint, _ p2: NSPoint) -> NSPoint{
-    return NSPoint(x: p1.x - p2.x, y: p1.y - p2.y)
 }

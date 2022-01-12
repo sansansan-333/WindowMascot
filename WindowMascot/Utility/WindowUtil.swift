@@ -41,28 +41,7 @@ class WindowController: NSWindowController, NSWindowDelegate{
     }
 }
 
-/// make window's background and menubar invisible
-func transparentizeWindow(_ window: NSWindow){
-    window.isOpaque = false
-    window.backgroundColor = NSColor.clear
-    window.hasShadow = false
-    window.titlebarAppearsTransparent = true
-    window.titleVisibility = .hidden
-    window.styleMask.insert(NSWindow.StyleMask.fullSizeContentView)
-    //window.styleMask.insert(NSWindow.StyleMask.borderless)
-    
-    window.standardWindowButton(.miniaturizeButton)?.isHidden = true
-    window.standardWindowButton(.closeButton)?.isHidden = true
-    window.standardWindowButton(.zoomButton)?.isHidden = true
-}
-
-/// make a window always frontmost
-func placeWindowFrontmost(_ window: NSWindow){
-    window.collectionBehavior = .canJoinAllSpaces
-    window.collectionBehavior = .fullScreenAuxiliary
-    window.level = .floating
-}
-
+/// Move window to given position relatively
 func translateWindow(_ window: NSWindow, relativePosition: NSPoint){
     let origin = window.frame.origin
     let (x, y) = (origin.x, origin.y)
@@ -70,11 +49,12 @@ func translateWindow(_ window: NSWindow, relativePosition: NSPoint){
     window.setFrameOrigin(p)
 }
 
+/// Move window to given position
 func translateWindow(_ window: NSWindow, position: NSPoint){
     window.setFrameOrigin(position)
 }
 
-
+///
 func scaleWindow(_ window: NSWindow, size: NSSize){
     window.setContentSize(size)
 }

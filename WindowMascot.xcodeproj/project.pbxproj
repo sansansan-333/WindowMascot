@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		474172CE278EA7D600C65CA3 /* VectorUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474172CD278EA7D500C65CA3 /* VectorUtil.swift */; };
 		47437D99277DAB4F0033EACE /* WindowMascotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47437D98277DAB4F0033EACE /* WindowMascotApp.swift */; };
 		47437D9B277DAB4F0033EACE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47437D9A277DAB4F0033EACE /* ContentView.swift */; };
 		47437D9D277DAB540033EACE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47437D9C277DAB540033EACE /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		474172CD278EA7D500C65CA3 /* VectorUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorUtil.swift; sourceTree = "<group>"; };
 		47437D95277DAB4F0033EACE /* WindowMascot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WindowMascot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47437D98277DAB4F0033EACE /* WindowMascotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowMascotApp.swift; sourceTree = "<group>"; };
 		47437D9A277DAB4F0033EACE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -43,6 +45,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		474172CA278725E400C65CA3 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				47437D98277DAB4F0033EACE /* WindowMascotApp.swift */,
+				47437D9A277DAB4F0033EACE /* ContentView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		474172CB2787260C00C65CA3 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				47437DAB277DE6720033EACE /* GameManager.swift */,
+				47437DA9277DE1D60033EACE /* Mascot.swift */,
+				47437DB1277EEA350033EACE /* Level.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		474172CC2787261300C65CA3 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				47437DA7277DB27A0033EACE /* WindowUtil.swift */,
+				47437DAD277DF5D00033EACE /* DebugUtil.swift */,
+				474172CD278EA7D500C65CA3 /* VectorUtil.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		47437D8C277DAB4F0033EACE = {
 			isa = PBXGroup;
 			children = (
@@ -62,13 +93,9 @@
 		47437D97277DAB4F0033EACE /* WindowMascot */ = {
 			isa = PBXGroup;
 			children = (
-				47437D98277DAB4F0033EACE /* WindowMascotApp.swift */,
-				47437D9A277DAB4F0033EACE /* ContentView.swift */,
-				47437DAB277DE6720033EACE /* GameManager.swift */,
-				47437DA9277DE1D60033EACE /* Mascot.swift */,
-				47437DB1277EEA350033EACE /* Level.swift */,
-				47437DA7277DB27A0033EACE /* WindowUtil.swift */,
-				47437DAD277DF5D00033EACE /* DebugUtil.swift */,
+				474172CC2787261300C65CA3 /* Utility */,
+				474172CB2787260C00C65CA3 /* Game */,
+				474172CA278725E400C65CA3 /* UI */,
 				47437D9C277DAB540033EACE /* Assets.xcassets */,
 				47437DA1277DAB540033EACE /* WindowMascot.entitlements */,
 				47437D9E277DAB540033EACE /* Preview Content */,
@@ -158,6 +185,7 @@
 				47437DB2277EEA350033EACE /* Level.swift in Sources */,
 				47437D9B277DAB4F0033EACE /* ContentView.swift in Sources */,
 				47437D99277DAB4F0033EACE /* WindowMascotApp.swift in Sources */,
+				474172CE278EA7D600C65CA3 /* VectorUtil.swift in Sources */,
 				47437DAA277DE1D60033EACE /* Mascot.swift in Sources */,
 				47437DA8277DB27A0033EACE /* WindowUtil.swift in Sources */,
 				47437DAE277DF5D00033EACE /* DebugUtil.swift in Sources */,
