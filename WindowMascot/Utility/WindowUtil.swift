@@ -41,7 +41,8 @@ class WindowController: NSWindowController, NSWindowDelegate{
     }
 }
 
-/// Move window to given position relatively
+/// Move window to a given position relatively
+/// Note that numbers after decimal point in *relativePosition* will be ignored
 func translateWindow(_ window: NSWindow, relativePosition: NSPoint){
     let origin = window.frame.origin
     let (x, y) = (origin.x, origin.y)
@@ -49,7 +50,8 @@ func translateWindow(_ window: NSWindow, relativePosition: NSPoint){
     window.setFrameOrigin(p)
 }
 
-/// Move window to given position
+/// Move window to a given position
+/// Note that numbers after decimal point in *position* will be ignored
 func translateWindow(_ window: NSWindow, position: NSPoint){
     window.setFrameOrigin(position)
 }
@@ -57,4 +59,27 @@ func translateWindow(_ window: NSWindow, position: NSPoint){
 ///
 func scaleWindow(_ window: NSWindow, size: NSSize){
     window.setContentSize(size)
+}
+
+// https://qiita.com/usagimaru/items/6ffd09c5b27042281108
+func getWindowList(_ windowListOption: CGWindowListOption) -> [NSDictionary]?{
+    // Generating the dictionaries for system windows is a relatively expensive operation.
+    guard let windows: NSArray = CGWindowListCopyWindowInfo(windowListOption, kCGNullWindowID) else {
+        return nil
+    }
+    let swiftWindowList = windows as! [NSDictionary]
+    
+    return swiftWindowList
+}
+
+/// Generate, load and return empty window
+func generateEmptyWindow() -> NSWindow{
+    let window = NSWindow(
+        contentRect: NSRect(x: 0, y: 0, width: 1, height: 1),
+        styleMask: [],
+        backing: .buffered, defer: false)
+    
+    WindowController.init(window: window).windowDidLoad() // directly calling windowDidLoad might be illegal, but otherwise it'll never be called!
+    
+    return window
 }

@@ -7,18 +7,22 @@
 //
 
 import Foundation
+import AppKit
 
-class Mascot{
+class Mascot: ObservableObject{
     var position: NSPoint // screen relative
-    var size: NSSize
+    @Published var size: NSSize
     var anchor: NSPoint // window relative
     
-    var imageFileName: String
+    @Published var imageFileName: String
     
-    init(position: NSPoint, size: NSSize, anchor: NSPoint, imageFileName: String){
+    var window: NSWindow
+    
+    init(position: NSPoint, size: NSSize, anchor: NSPoint, imageFileName: String, window: NSWindow){
         self.position = position
         self.size = size
         self.anchor = anchor
         self.imageFileName = imageFileName
+        self.window = window
     }
 }

@@ -9,39 +9,38 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            MainView()
-        }
-    }
-}
-
-struct MainView: View {
     @ObservedObject var gameManager: GameManager = GameManager.shared
+    @ObservedObject var mascot: Mascot
+    
+    init(mascot: Mascot){
+        self.mascot = mascot
+    }
     
     var body: some View {
-        if gameManager.isReadyToDraw{
-            Image(gameManager.mascot!.imageFileName)
-                .resizable()
-                .frame(width: gameManager.windowSize?.width, height: gameManager.windowSize?.height)
-        }else{
-            Text("Loading...")
-                .padding()
-        }
+        Image(mascot.imageFileName)
+            .resizable()
+            .frame(width: mascot.size.width, height: mascot.size.height)
     }
 }
 
-/// Settings view
+/// Control view
 struct ControlView: View {
     @ObservedObject private var gameManager = GameManager.shared
     
     var body: some View {
         Form {
             // FPS
-            Text("sec/frame: \(gameManager.secondPerFrame)")
-            Slider(value: $gameManager.secondPerFrame, in: GameManager.secondPerFrameRange)
+            HStack(){
+                Text("sec/frame: \(gameManager.secondPerFrame)")
+                Slider(value: $gameManager.secondPerFrame, in: GameManager.secondPerFrameRange)
+            }
+            Button(action:{
+                gameManager.generateMascot(size: NSSize(width: 50, height: 50), imageFileName: "pachinko_ball")
+            }){
+                Text("New mascot")
+            }
         }
-        .padding(20)
+        .padding()
         .frame(width: 350, height: 100)
     }
 }
@@ -56,11 +55,3 @@ struct GeneralSettingsView: View {
         .frame(width: 350, height: 100)
     }
 }
-
-/*
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
-*/
