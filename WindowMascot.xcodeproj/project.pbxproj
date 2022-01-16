@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		474172CE278EA7D600C65CA3 /* VectorUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474172CD278EA7D500C65CA3 /* VectorUtil.swift */; };
+		474172D627928EC900C65CA3 /* Physics2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474172D527928EC900C65CA3 /* Physics2D.swift */; };
+		474172D82792902200C65CA3 /* Object2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474172D72792902200C65CA3 /* Object2D.swift */; };
 		47437D99277DAB4F0033EACE /* WindowMascotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47437D98277DAB4F0033EACE /* WindowMascotApp.swift */; };
 		47437D9B277DAB4F0033EACE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47437D9A277DAB4F0033EACE /* ContentView.swift */; };
 		47437D9D277DAB540033EACE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47437D9C277DAB540033EACE /* Assets.xcassets */; };
@@ -21,6 +23,8 @@
 
 /* Begin PBXFileReference section */
 		474172CD278EA7D500C65CA3 /* VectorUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorUtil.swift; sourceTree = "<group>"; };
+		474172D527928EC900C65CA3 /* Physics2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Physics2D.swift; sourceTree = "<group>"; };
+		474172D72792902200C65CA3 /* Object2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Object2D.swift; sourceTree = "<group>"; };
 		47437D95277DAB4F0033EACE /* WindowMascot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WindowMascot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47437D98277DAB4F0033EACE /* WindowMascotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowMascotApp.swift; sourceTree = "<group>"; };
 		47437D9A277DAB4F0033EACE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -57,6 +61,7 @@
 		474172CB2787260C00C65CA3 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				474172D22792764600C65CA3 /* Physics */,
 				47437DAB277DE6720033EACE /* GameManager.swift */,
 				47437DA9277DE1D60033EACE /* Mascot.swift */,
 				47437DB1277EEA350033EACE /* Level.swift */,
@@ -72,6 +77,15 @@
 				474172CD278EA7D500C65CA3 /* VectorUtil.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		474172D22792764600C65CA3 /* Physics */ = {
+			isa = PBXGroup;
+			children = (
+				474172D527928EC900C65CA3 /* Physics2D.swift */,
+				474172D72792902200C65CA3 /* Object2D.swift */,
+			);
+			path = Physics;
 			sourceTree = "<group>";
 		};
 		47437D8C277DAB4F0033EACE = {
@@ -181,12 +195,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				474172D82792902200C65CA3 /* Object2D.swift in Sources */,
 				47437DAC277DE6720033EACE /* GameManager.swift in Sources */,
 				47437DB2277EEA350033EACE /* Level.swift in Sources */,
 				47437D9B277DAB4F0033EACE /* ContentView.swift in Sources */,
 				47437D99277DAB4F0033EACE /* WindowMascotApp.swift in Sources */,
 				474172CE278EA7D600C65CA3 /* VectorUtil.swift in Sources */,
 				47437DAA277DE1D60033EACE /* Mascot.swift in Sources */,
+				474172D627928EC900C65CA3 /* Physics2D.swift in Sources */,
 				47437DA8277DB27A0033EACE /* WindowUtil.swift in Sources */,
 				47437DAE277DF5D00033EACE /* DebugUtil.swift in Sources */,
 			);

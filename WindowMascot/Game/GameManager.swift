@@ -56,6 +56,7 @@ class GameManager: ObservableObject{
         getWindowList(.optionOnScreenOnly)
     }
     
+    ///
     func generateMascot(position: NSPoint = NSPoint(x:0, y:0), size: NSSize, anchor: NSPoint = NSPoint(x:0, y:0), imageFileName: String){
         let window = generateEmptyWindow()
         scaleWindow(window, size: size)
