@@ -12,6 +12,12 @@ struct Vector2{
     var x: Double
     var y: Double
     
+    static let zero = Vector2(0, 0)
+    static let up = Vector2(0, 1)
+    static let down = Vector2(0, -1)
+    static let left = Vector2(-1, 0)
+    static let right = Vector2(1, 0)
+    
     init(_ x: Double, _ y: Double){
         self.x = x
         self.y = y
@@ -30,6 +36,22 @@ struct Vector2{
     
     static func - (left: Vector2, right: Vector2) -> Vector2{
         return Vector2(left.x - right.x, left.y - right.y)
+    }
+    
+    static func / (v: Vector2, c: Double) -> Vector2{
+        return Vector2(v.x / c, v.y / c)
+    }
+    
+    static func / (c: Double, v: Vector2) -> Vector2{
+        return Vector2(v.x / c, v.y / c)
+    }
+    
+    static func * (v: Vector2, c: Double) -> Vector2{
+        return Vector2(v.x * c, v.y * c)
+    }
+    
+    static func * (c: Double, v: Vector2) -> Vector2{
+        return Vector2(v.x * c, v.y * c)
     }
     
     static prefix func - (v: Vector2) -> Vector2{
@@ -87,7 +109,7 @@ struct Vector2{
 
 
 extension NSPoint{
-    init(vector2: Vector2){
+    init(_ vector2: Vector2){
         self.init(x: vector2.x, y: vector2.y)
     }
 }

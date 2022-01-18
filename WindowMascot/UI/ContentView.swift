@@ -26,6 +26,7 @@ struct ContentView: View {
 /// Control view
 struct ControlView: View {
     @ObservedObject private var gameManager = GameManager.shared
+    @ObservedObject private var physicsEngine = GameManager.shared.physicsEngine
     
     var body: some View {
         Form {
@@ -35,13 +36,21 @@ struct ControlView: View {
                 Slider(value: $gameManager.secondPerFrame, in: GameManager.secondPerFrameRange)
             }
             Button(action:{
-                gameManager.generateMascot(size: NSSize(width: 50, height: 50), imageFileName: "pachinko_ball")
+                let circle = Circle(bodyType: .Dynamic, position: Vector2(500, 1000), mass: 10)
+                gameManager.generateMascot(position: NSPoint(x: 500, y: 500), size: NSSize(width: 50, height: 50), imageFileName: "pachinko_ball", physicsObject: circle)
             }){
                 Text("New mascot")
             }
+            
+            // Physics
+            Section(header: Text("Physics")){
+                HStack(){
+                    Text("gravity(m/s^2): \(physicsEngine.gravity)")
+                    Slider(value: $physicsEngine.gravity, in: Physics2D.gravityRange)
+                }
+            }
         }
         .padding()
-        .frame(width: 350, height: 100)
     }
 }
 
