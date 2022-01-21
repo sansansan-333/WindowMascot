@@ -45,8 +45,17 @@ struct ControlView: View {
             // Physics
             Section(header: Text("Physics")){
                 HStack(){
-                    Text("gravity(m/s^2): \(physicsEngine.gravity)")
+                    Text("Gravity(m/s^2): \(physicsEngine.gravity)")
                     Slider(value: $physicsEngine.gravity, in: Physics2D.gravityRange)
+                }
+            }
+            
+            Section(header: Text("Physics")){
+                Button(action: {
+                    WindowLevel.shared.construct()
+                    Logger.shared.write(log: appName)
+                }){
+                    Text("Debug")
                 }
             }
         }

@@ -6,26 +6,28 @@
 //  
 //
 
+// https://thinkit.co.jp/article/8467
+
 import Foundation
 
 class Physics2D: ObservableObject{
     var objects: [Object2D] = []
     
-    // constant
+    // phisics constant
     @Published var gravity: Double = 9.8
-    static let gravityRange = 0...1000.0
+    static let gravityRange = 0...100.0
     
     init(){}
     
     
-    func Step(elapsed: Double){
+    func step(elapsed: Double){
         // apply force
-        MoveObjects(elapsed)
+        moveObjects(elapsed)
         
         // collision
         if !objects.isEmpty{
-            for i in 0..<objects.count-1 {
-                for j in i+1..<objects.count {
+            for i in 0 ..< objects.count-1 {
+                for j in i+1 ..< objects.count {
                     CalcCollision(obj1: objects[i], obj2: objects[j])
                 }
             }
@@ -33,9 +35,9 @@ class Physics2D: ObservableObject{
     }
     
     ///
-    private func MoveObjects(_ elapsed: Double){
+    private func moveObjects(_ elapsed: Double){
         for i in 0..<objects.count{
-            var obj = objects[i]
+            let obj = objects[i]
             
             if obj.bodyType == .Static{
                 obj.v = Vector2.zero
@@ -56,5 +58,18 @@ class Physics2D: ObservableObject{
     ///
     private func CalcCollision(obj1: Object2D, obj2: Object2D){
         
+    }
+    
+    /// Remove an object from engine, then return true if existed
+    @discardableResult
+    func discardObject(object: Object2D) -> Bool{
+        for i in 0 ..< objects.count{
+            if objects[i] === object{
+                objects.remove(at: i)
+                return true
+            }
+        }
+        
+        return false
     }
 }

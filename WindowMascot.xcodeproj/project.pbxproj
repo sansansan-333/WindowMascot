@@ -19,6 +19,7 @@
 		47437DAC277DE6720033EACE /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47437DAB277DE6720033EACE /* GameManager.swift */; };
 		47437DAE277DF5D00033EACE /* DebugUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47437DAD277DF5D00033EACE /* DebugUtil.swift */; };
 		47437DB2277EEA350033EACE /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47437DB1277EEA350033EACE /* Level.swift */; };
+		4759BD2C2799D2BD005EDBEB /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4759BD2B2799D2BD005EDBEB /* Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		47437DAB277DE6720033EACE /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
 		47437DAD277DF5D00033EACE /* DebugUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugUtil.swift; sourceTree = "<group>"; };
 		47437DB1277EEA350033EACE /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
+		4759BD2B2799D2BD005EDBEB /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				47437DA7277DB27A0033EACE /* WindowUtil.swift */,
 				47437DAD277DF5D00033EACE /* DebugUtil.swift */,
 				474172CD278EA7D500C65CA3 /* VectorUtil.swift */,
+				4759BD2B2799D2BD005EDBEB /* Extension.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -199,6 +202,7 @@
 				47437DAC277DE6720033EACE /* GameManager.swift in Sources */,
 				47437DB2277EEA350033EACE /* Level.swift in Sources */,
 				47437D9B277DAB4F0033EACE /* ContentView.swift in Sources */,
+				4759BD2C2799D2BD005EDBEB /* Extension.swift in Sources */,
 				47437D99277DAB4F0033EACE /* WindowMascotApp.swift in Sources */,
 				474172CE278EA7D600C65CA3 /* VectorUtil.swift in Sources */,
 				47437DAA277DE1D60033EACE /* Mascot.swift in Sources */,

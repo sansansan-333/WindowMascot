@@ -11,7 +11,7 @@ import SwiftUI
 // https://stackoverflow.com/questions/60218622/nswindow-contentview-not-cover-full-window-size-macos-swiftui
 class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
-        GameManager.shared.Awake()
+        GameManager.shared.awake()
     }
 }
 

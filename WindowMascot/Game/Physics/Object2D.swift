@@ -15,7 +15,7 @@ enum BodyType{
     case Dynamic
 }
 
-protocol Object2D{
+protocol Object2D: AnyObject{
     var bodyType: BodyType{ get set }
     var position: Vector2{ get set }
     

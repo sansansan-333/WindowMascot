@@ -92,18 +92,26 @@ struct Vector2{
         return Vector2.cross(self, v)
     }
     
-    func Length() -> Double{
+    func length() -> Double{
         return sqrt(x*x + y*y)
     }
     
-    mutating func Normalize(){
-        let length = Length()
+    mutating func normalize(){
+        let length = length()
         x /= length
         y /= length
     }
     
-    func ToString() -> String{
+    func toString() -> String{
         return "(\(x), \(y))"
+    }
+    
+    /// Check if this position is inside of a given rectangle.
+    func isInsideOf(v0: Vector2, v1: Vector2) -> Bool{
+        if self.x < v0.x || self.y < v0.y || self.x > v1.x || self.y > v1.y{
+            return false
+        }
+        return true
     }
 }
 

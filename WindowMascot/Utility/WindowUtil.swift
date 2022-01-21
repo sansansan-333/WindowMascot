@@ -50,6 +50,10 @@ func translateWindow(_ window: NSWindow, relativePosition: NSPoint){
     window.setFrameOrigin(p)
 }
 
+var appName: String{
+    return (Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String)!
+}
+
 /// Move window to a given position
 /// Note that numbers after decimal point in *position* will be ignored
 func translateWindow(_ window: NSWindow, position: NSPoint){
