@@ -1,5 +1,5 @@
 //
-//  VectorUtil.swift
+//  Vector.swift
 //  WindowMascot
 //  
 //  Created on 2022/01/12

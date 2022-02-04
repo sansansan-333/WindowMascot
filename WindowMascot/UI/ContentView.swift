@@ -36,8 +36,9 @@ struct ControlView: View {
                 Slider(value: $gameManager.secondPerFrame, in: GameManager.secondPerFrameRange)
             }
             Button(action:{
-                let circle = Circle(bodyType: .Dynamic, position: Vector2(500, 1000), mass: 10)
+                let circle = Circle(bodyType: .Dynamic, position: Vector2(500, 300), mass: 10, r: 25)
                 gameManager.generateMascot(position: NSPoint(x: 500, y: 500), size: NSSize(width: 50, height: 50), imageFileName: "pachinko_ball", physicsObject: circle)
+                circle.addForce(force: Vector2(100, 100))
             }){
                 Text("New mascot")
             }
@@ -48,12 +49,12 @@ struct ControlView: View {
                     Text("Gravity(m/s^2): \(physicsEngine.gravity)")
                     Slider(value: $physicsEngine.gravity, in: Physics2D.gravityRange)
                 }
+                Text("Objects in engine: \(physicsEngine.objects.count)")
             }
             
-            Section(header: Text("Physics")){
+            Section(header: Text("Debug")){
                 Button(action: {
-                    WindowLevel.shared.construct()
-                    Logger.shared.write(log: appName)
+                    Logger.shared.write(log: getWindowList(.optionAll)!.description)
                 }){
                     Text("Debug")
                 }

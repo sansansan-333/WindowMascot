@@ -34,7 +34,7 @@ class Mascot: ObservableObject{
     }
     
     /// Update position based on own physics object's position
-    func updatePosition(){
+    func updatePositionPhysics(){
         if !physics{
             return
         }
@@ -50,7 +50,7 @@ class Mascot: ObservableObject{
         physicsEngine!.objects.append(physicsObject)
         physics = true
         
-        updatePosition()
+        updatePositionPhysics()
     }
     
     /// Remove physics component from this mascot.

@@ -9,6 +9,7 @@
 // https://thinkit.co.jp/article/8467
 
 import Foundation
+import SwiftUI
 
 enum BodyType{
     case Static
@@ -23,6 +24,8 @@ protocol Object2D: AnyObject{
     var acc: Vector2{ get set }
     var force: Vector2{ get set }
     var m: Double{ get }
+    
+    func addForce(force: Vector2)
 }
 
 class Rectangle: Object2D{
@@ -46,11 +49,17 @@ class Rectangle: Object2D{
         self.m = mass
         self.friction = friction
     }
+    
+    func addForce(force: Vector2){
+        self.force += force
+    }
 }
 
 class Line: Object2D{
     var bodyType: BodyType
     var position: Vector2
+    var p0: Vector2
+    var p1: Vector2
     
     var v: Vector2 = Vector2.zero
     var acc: Vector2 = Vector2.zero
@@ -58,28 +67,41 @@ class Line: Object2D{
     var m: Double
     var friction: Double
     
-    init(bodyType: BodyType, position: Vector2, mass: Double, friction: Double){
+    init(bodyType: BodyType, mass: Double, friction: Double, p0: Vector2, p1: Vector2){
         self.bodyType = bodyType
-        self.position = position
+        self.position = (p0 + p1) / 2
         
         self.m = mass
         self.friction = friction
+        
+        self.p0 = p0
+        self.p1 = p1
+    }
+    
+    func addForce(force: Vector2){
+        self.force += force
     }
 }
 
 class Circle: Object2D{
     var bodyType: BodyType
     var position: Vector2
+    var r: Double
     
     var v: Vector2 = Vector2.zero
     var acc: Vector2 = Vector2.zero
     var force: Vector2 = Vector2.zero
     var m: Double
     
-    init(bodyType: BodyType, position: Vector2, mass: Double){
+    init(bodyType: BodyType, position: Vector2, mass: Double, r: Double){
         self.bodyType = bodyType
         self.position = position
+        self.r = r
         
         self.m = mass
+    }
+    
+    func addForce(force: Vector2){
+        self.force += force
     }
 }

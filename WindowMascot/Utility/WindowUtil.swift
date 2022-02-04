@@ -37,7 +37,7 @@ class WindowController: NSWindowController, NSWindowDelegate{
     private func placeWindowFrontmost(_ window: NSWindow){
         window.collectionBehavior = .canJoinAllSpaces
         window.collectionBehavior = .fullScreenAuxiliary
-        window.level = .floating
+        window.level = .mainMenu + 1
     }
 }
 
@@ -87,3 +87,15 @@ func generateEmptyWindow() -> NSWindow{
     
     return window
 }
+
+/// Convert y position in CGWindow corrdinate into y in NSScreen corrdinate.
+/// See https://zenn.dev/kyome/articles/6d55d686069b0c
+func CGWindowToNSScreenY(cgWindowY: Double) -> Double{
+    return screenSize.height - cgWindowY
+}
+
+func NSScreenToCGWindowY(nsScreenY: Double) -> Double{
+    return nsScreenY - screenSize.height
+}
+
+let screenSize: CGSize = (NSScreen.main?.frame.size)!

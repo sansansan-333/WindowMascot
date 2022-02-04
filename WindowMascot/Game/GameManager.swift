@@ -30,6 +30,8 @@ class GameManager: ObservableObject{
     static var screenRightTop: Vector2 = Vector2(16000, 16000)
     var physicsEngine: Physics2D = Physics2D()
     
+    var gizmo: GizmoView?
+    
     // debug variable
     var frameCount: Int = 1
     var logCount: Int = 0
@@ -49,14 +51,22 @@ class GameManager: ObservableObject{
     
     ///
     private func start(){
-        let circle = Circle(bodyType: .Dynamic, position: Vector2(500, 1000), mass: 10)
+        let circle = Circle(bodyType: .Dynamic, position: Vector2(500, 1000), mass: 10, r: 25)
         generateMascot(position: NSPoint(x: 0, y: 0), size: NSSize(width: 50, height: 50), anchor: NSPoint(x: 25, y: 25), imageFileName: "pachinko_ball", physicsObject: nil)
+        
+        gizmo = startGizmo()
         
         isStarted = true
     }
     
     /// Update is called once per frame
     private func update(){
+        // set flag to show gizmo
+        // window server will redraw if the flag is true
+        if gizmo != nil{
+            gizmo!.needsDisplay = true
+        }
+        
         // remove mascot if it's outside of screen
         // TODO: resolve redundant search
         for mascot in mascots{
@@ -65,13 +75,14 @@ class GameManager: ObservableObject{
             }
         }
         
+        // construct level
+        WindowLevel.shared.construct(physicsEngine: physicsEngine)
+        
         // process physics
         physicsEngine.step(elapsed: secondPerFrame)
         for mascot in mascots{
-            mascot.updatePosition()
+            mascot.updatePositionPhysics()
         }
-        
-        // getWindowList(.optionOnScreenOnly)
     }
     
     ///
@@ -131,5 +142,24 @@ class GameManager: ObservableObject{
         mascots.remove(at: index)
         
         return true
+    }
+    
+    private func startGizmo() -> GizmoView{
+        let window = generateEmptyWindow()
+        window.level = .screenSaver
+        window.ignoresMouseEvents = true
+        
+        // expand window to the size of screen
+        translateWindow(window, position: NSPoint(x: 0, y: 0))
+        scaleWindow(window, size: screenSize)
+
+        let gizmoView = GizmoView(frame: window.contentView!.frame)
+        gizmoView.physicsEngine = self.physicsEngine
+        gizmoView.needsDisplay = true
+        
+        window.contentView?.addSubview(gizmoView)
+        window.makeKeyAndOrderFront(nil)
+        
+        return gizmoView
     }
 }
