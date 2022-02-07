@@ -11,9 +11,9 @@ import AppKit
 
 /// Draws objects' shape in physics engine
 class GizmoView: NSView{
-    var physicsEngine: Physics2D?
+    private var physicsEngine: Physics2D?
     
-    var active = true
+    private var active = true
     
     override init(frame frameRect: NSRect){
         super.init(frame: frameRect)

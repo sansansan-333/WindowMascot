@@ -19,13 +19,36 @@ class WindowLevel{
     
     var mode: LevelMode = .Rectangles
     
-    private var rectangles: [Rectangle] = []
-    private var lines: [Line] = []
-    var friction: Double = 1
+    private var physicsEngine: Physics2D?
+    private var levelObjects: [Object2D] = []
+    let friction: Double = 1
+    let levelObjectName: String = "level"
     
     private init(){}
     
-    func construct(physicsEngine: Physics2D){
+    /// Provide construct function to mouse and keyboard events
+    // Why we don't call construct function every frame is
+    // because the function is heavy due to CGWindowListCopyWindowInfo(),
+    // which causes high CPU usage by WindowServer.
+    func startConstructingLevel(physicsEngine: Physics2D){
+        self.physicsEngine = physicsEngine
+        
+        // construct first
+        WindowLevel.shared.construct()
+        
+        // event mask used to fire construction event
+        let MaskBit = {(cgEventType: CGEventType) -> UInt64 in
+            1 << cgEventType.rawValue
+        }
+        let eventMask = MaskBit(.flagsChanged) | MaskBit(.keyDown) | MaskBit(.leftMouseDragged) | MaskBit(.leftMouseDown) | MaskBit(.leftMouseUp)
+        
+        // add event
+        NSEvent.addGlobalMonitorForEvents(matching: NSEvent.EventTypeMask(rawValue: eventMask), handler: { (_) -> Void in WindowLevel.shared.construct()
+        })
+    }
+    
+    /// Construct level depending on windows on a screen
+    private func construct(){
         // get list of windows
         guard var windowList: [NSDictionary] = getWindowList(.optionOnScreenOnly) else{
             Logger.shared.write(log: "No window found.\n")
@@ -45,31 +68,29 @@ class WindowLevel{
         // we only need windows' position and size
         let windowBounds = windowList.map{ $0[kCGWindowBounds]! as! NSDictionary }
         
+        // discard rectangles from engine
+        // TODO: make faster
+        physicsEngine!.discardObjectsWithName(name: levelObjectName)
+        levelObjects = []
+        
         if mode == .Rectangles{
-            // discard rectangles from engine
-            // TODO: make faster
-            for i in 0 ..< rectangles.count{
-                physicsEngine.discardObject(object: rectangles[i])
-            }
-                
-            rectangles = []
-            
             // create rectangles
             for i in 0 ..< windowBounds.count{
                 let bound = windowBounds[i]
-                // since getWindowList()(technically CGWindowListCopyWindowInfo()) only uses different coordinate system in this project,
+                // Since getWindowList()(technically CGWindowListCopyWindowInfo()) only uses different coordinate system in this project,
                 // y position needs to be converted.
-                rectangles.append(
+                levelObjects.append(
                     Rectangle(bodyType: .Static,
                               position: Vector2(bound["X"] as! Double, CGWindowToNSScreenY(cgWindowY: (bound["Y"] as! Double) + (bound["Height"] as! Double))),
                               width: bound["Width"] as! Double,
                               height: bound["Height"] as! Double,
                               mass: 1,
-                              friction: self.friction
+                              friction: self.friction,
+                              name: levelObjectName
                     )
                 )
             }
-            physicsEngine.objects += rectangles
+            physicsEngine!.objects += levelObjects
             
         }else if mode == .Lines{
             

@@ -16,11 +16,11 @@ class GameManager: ObservableObject{
     private var timer: Timer?
     
     @Published var secondPerFrame = 0.5 {
-        didSet(newValue){
+        didSet{
             updateTimer()
         }
     }
-    static let secondPerFrameRange = 0.016...1
+    static let secondPerFrameRange = 0.0166...1
     
     private var isStarted: Bool = false
     
@@ -30,12 +30,20 @@ class GameManager: ObservableObject{
     static var screenRightTop: Vector2 = Vector2(16000, 16000)
     var physicsEngine: Physics2D = Physics2D()
     
-    var gizmo: GizmoView?
+    @Published var gizmo: Bool = false{
+        didSet{
+            Logger.shared.write(log: gizmo.description + "\n")
+            if gizmo{
+                physicsEngine.showGizmo()
+            }else{
+                physicsEngine.hideGizmo()
+            }
+        }
+    }
     
     // debug variable
     var frameCount: Int = 1
     var logCount: Int = 0
-    let logger = Logger.shared
     
     private init(){}
     
@@ -54,19 +62,13 @@ class GameManager: ObservableObject{
         let circle = Circle(bodyType: .Dynamic, position: Vector2(500, 1000), mass: 10, r: 25)
         generateMascot(position: NSPoint(x: 0, y: 0), size: NSSize(width: 50, height: 50), anchor: NSPoint(x: 25, y: 25), imageFileName: "pachinko_ball", physicsObject: nil)
         
-        gizmo = startGizmo()
+        WindowLevel.shared.startConstructingLevel(physicsEngine: physicsEngine)
         
         isStarted = true
     }
     
     /// Update is called once per frame
     private func update(){
-        // set flag to show gizmo
-        // window server will redraw if the flag is true
-        if gizmo != nil{
-            gizmo!.needsDisplay = true
-        }
-        
         // remove mascot if it's outside of screen
         // TODO: resolve redundant search
         for mascot in mascots{
@@ -74,9 +76,6 @@ class GameManager: ObservableObject{
                 removeMascot(mascot: mascot)
             }
         }
-        
-        // construct level
-        WindowLevel.shared.construct(physicsEngine: physicsEngine)
         
         // process physics
         physicsEngine.step(elapsed: secondPerFrame)
@@ -142,24 +141,5 @@ class GameManager: ObservableObject{
         mascots.remove(at: index)
         
         return true
-    }
-    
-    private func startGizmo() -> GizmoView{
-        let window = generateEmptyWindow()
-        window.level = .screenSaver
-        window.ignoresMouseEvents = true
-        
-        // expand window to the size of screen
-        translateWindow(window, position: NSPoint(x: 0, y: 0))
-        scaleWindow(window, size: screenSize)
-
-        let gizmoView = GizmoView(frame: window.contentView!.frame)
-        gizmoView.physicsEngine = self.physicsEngine
-        gizmoView.needsDisplay = true
-        
-        window.contentView?.addSubview(gizmoView)
-        window.makeKeyAndOrderFront(nil)
-        
-        return gizmoView
     }
 }

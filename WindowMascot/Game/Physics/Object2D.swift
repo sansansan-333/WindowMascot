@@ -25,6 +25,8 @@ protocol Object2D: AnyObject{
     var force: Vector2{ get set }
     var m: Double{ get }
     
+    var name: String{ get }
+    
     func addForce(force: Vector2)
 }
 
@@ -40,7 +42,9 @@ class Rectangle: Object2D{
     var m: Double
     var friction: Double
     
-    init(bodyType: BodyType, position: Vector2, width: Double, height: Double, mass: Double, friction: Double){
+    var name: String
+    
+    init(bodyType: BodyType, position: Vector2, width: Double, height: Double, mass: Double, friction: Double, name: String = ""){
         self.bodyType = bodyType
         self.position = position
         self.width = width
@@ -48,6 +52,8 @@ class Rectangle: Object2D{
         
         self.m = mass
         self.friction = friction
+        
+        self.name = name
     }
     
     func addForce(force: Vector2){
@@ -67,7 +73,9 @@ class Line: Object2D{
     var m: Double
     var friction: Double
     
-    init(bodyType: BodyType, mass: Double, friction: Double, p0: Vector2, p1: Vector2){
+    var name: String
+    
+    init(bodyType: BodyType, mass: Double, friction: Double, p0: Vector2, p1: Vector2, name: String = ""){
         self.bodyType = bodyType
         self.position = (p0 + p1) / 2
         
@@ -76,6 +84,8 @@ class Line: Object2D{
         
         self.p0 = p0
         self.p1 = p1
+        
+        self.name = name
     }
     
     func addForce(force: Vector2){
@@ -93,12 +103,16 @@ class Circle: Object2D{
     var force: Vector2 = Vector2.zero
     var m: Double
     
-    init(bodyType: BodyType, position: Vector2, mass: Double, r: Double){
+    var name: String
+    
+    init(bodyType: BodyType, position: Vector2, mass: Double, r: Double, name: String = ""){
         self.bodyType = bodyType
         self.position = position
         self.r = r
         
         self.m = mass
+        
+        self.name = name
     }
     
     func addForce(force: Vector2){

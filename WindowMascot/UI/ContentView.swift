@@ -32,7 +32,7 @@ struct ControlView: View {
         Form {
             // FPS
             HStack(){
-                Text("sec/frame: \(gameManager.secondPerFrame)")
+                Text("FPS: \(1/gameManager.secondPerFrame)")
                 Slider(value: $gameManager.secondPerFrame, in: GameManager.secondPerFrameRange)
             }
             Button(action:{
@@ -57,6 +57,11 @@ struct ControlView: View {
                     Logger.shared.write(log: getWindowList(.optionAll)!.description)
                 }){
                     Text("Debug")
+                }
+                Button(action: {
+                    gameManager.gizmo = !gameManager.gizmo
+                }){
+                    Text("Gizmo \(gameManager.gizmo ? "off" : "on")")
                 }
             }
         }
