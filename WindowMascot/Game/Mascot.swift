@@ -47,7 +47,7 @@ class Mascot: ObservableObject{
     func attachPhysics(physicsObject: Object2D, engine: Physics2D){
         self.physicsObject = physicsObject
         physicsEngine = engine
-        physicsEngine!.objects.append(physicsObject)
+        physicsEngine!.addObject(object: physicsObject)
         physics = true
         
         updatePositionPhysics()

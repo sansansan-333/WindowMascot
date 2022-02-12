@@ -26,8 +26,12 @@ protocol Object2D: AnyObject{
     var m: Double{ get }
     
     var name: String{ get }
-    
-    func addForce(force: Vector2)
+}
+
+extension Object2D{
+    func addForce(force: Vector2){
+        self.force += force
+    }
 }
 
 class Rectangle: Object2D{
@@ -56,8 +60,8 @@ class Rectangle: Object2D{
         self.name = name
     }
     
-    func addForce(force: Vector2){
-        self.force += force
+    func copy() -> Rectangle{
+        return Rectangle.init(bodyType: self.bodyType, position: self.position, width: self.width, height: self.height, mass: self.m, friction: self.friction, name: self.name)
     }
 }
 
@@ -88,8 +92,8 @@ class Line: Object2D{
         self.name = name
     }
     
-    func addForce(force: Vector2){
-        self.force += force
+    func copy() -> Line{
+        return Line.init(bodyType: self.bodyType, mass: self.m, friction: self.friction, p0: self.p0, p1: self.p1, name: self.name)
     }
 }
 
@@ -115,7 +119,7 @@ class Circle: Object2D{
         self.name = name
     }
     
-    func addForce(force: Vector2){
-        self.force += force
+    func copy() -> Circle{
+        return Circle.init(bodyType: self.bodyType, position: self.position, mass: self.m, r: self.r, name: self.name)
     }
 }

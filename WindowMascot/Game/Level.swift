@@ -90,7 +90,7 @@ class WindowLevel{
                     )
                 )
             }
-            physicsEngine!.objects += levelObjects
+            physicsEngine!.addObjects(objects: levelObjects)
             
         }else if mode == .Lines{
             

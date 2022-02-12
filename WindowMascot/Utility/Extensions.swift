@@ -15,3 +15,24 @@ extension Array where Element: Equatable {
         return remove(at: index)
     }
 }
+
+// https://stackoverflow.com/questions/32357060/deep-copy-for-array-of-objects-in-swift
+protocol Copying{
+    init(original: Self)
+}
+
+extension Copying{
+    func copy() -> Self{
+        return Self.init(original: self)
+    }
+}
+
+extension Array where Element: Copying{
+    func clone() -> Array{
+        var copied = Array<Element>()
+        for elem in self{
+            copied.append(elem.copy())
+        }
+        return copied
+    }
+}

@@ -11,7 +11,8 @@
 import Foundation
 
 class Physics2D: ObservableObject{
-    @Published var objects: [Object2D] = []
+    @Published private(set) var objects: [Object2D] = []
+    private var previousObjects: [Object2D] = [] // objects in previous frame(step)
     
     // physics constant
     @Published var gravity: Double = 9.8
@@ -26,11 +27,15 @@ class Physics2D: ObservableObject{
         // apply force
         moveObjects(elapsed)
         
+        // gizmo
         if gizmo{
-            if isObjectsPositionChanged(){
+            if areObjectsChanged(){
                 gizmoView!.needsDisplay = true
             }
         }
+        
+        // store previous frame's objects
+        previousObjects = Physics2D.copyObjects(original: objects)
         
         // reset force
         for object in objects {
@@ -73,6 +78,82 @@ class Physics2D: ObservableObject{
         
     }
     
+    /// Compare position and size of objects from previous frame and return true if at least one of them are different.
+    // TODO: specify area that needs to be checked if any object inside of it is changed
+    func areObjectsChanged() -> Bool{
+        var currentObjects: [Object2D] = []
+        currentObjects += objects
+        
+        // number of objects
+        if previousObjects.count != currentObjects.count{
+            Logger.shared.write(log: "1\n")
+            return true
+        }
+        
+        // if dynamic object had non-zero velocity in the previous frame, it should be moved
+        let prevDynamicObj = previousObjects.filter( {$0.bodyType == .Dynamic} )
+        if !prevDynamicObj.filter( {$0.v != Vector2.zero} ).isEmpty{
+            Logger.shared.write(log: "2\n")
+            return true
+        }
+        
+        let prevStaticObj = previousObjects.filter( {$0.bodyType == .Static} )
+        var curStaticObj = objects.filter( {$0.bodyType == .Static} )
+        if prevStaticObj.count != curStaticObj.count{
+            Logger.shared.write(log: "3\n")
+            return true
+        }
+        // compare type, position and size of static objects
+        for prev in prevStaticObj{
+            var isSameObjFound = false
+            for cur in curStaticObj{
+                if type(of: prev) == type(of: cur) && prev.position == cur.position{
+                    if prev is Rectangle{
+                        if (prev as! Rectangle).height == (cur as! Rectangle).height &&
+                            (prev as! Rectangle).width == (cur as! Rectangle).width{
+                            isSameObjFound = true
+                        }
+                    }else if prev is Line{
+                        if (prev as! Line).p0 == (cur as! Line).p0 &&
+                            (prev as! Line).p1 == (cur as! Line).p1{
+                            isSameObjFound = true
+                        }
+                    }else{
+                        if (prev as! Circle).r == (cur as! Circle).r{
+                            isSameObjFound = true
+                        }
+                    }
+                }
+                
+                if isSameObjFound{
+                    curStaticObj.remove(at: curStaticObj.firstIndex(where: {$0 === cur})!)
+                    break
+                }
+            }
+            if !isSameObjFound{
+                Logger.shared.write(log: "4\n")
+                return true
+            }
+        }
+        
+        
+        return false
+    }
+    
+    func addObject(object: Object2D){
+        objects.append(object)
+        if gizmo && gizmoView != nil{
+            gizmoView!.needsDisplay = true
+        }
+    }
+    
+    func addObjects(objects: [Object2D]){
+        self.objects += objects
+        if gizmo && gizmoView != nil{
+            gizmoView!.needsDisplay = true
+        }
+    }
+    
     /// Remove an object from engine, then return true if existed
     @discardableResult
     func discardObject(object: Object2D) -> Bool{
@@ -95,11 +176,6 @@ class Physics2D: ObservableObject{
         objects.removeAll( where: {$0.name == name} )
         
         return countBeforeDelete != objects.count
-    }
-    
-    /// Compare position of objects from previous frame, return true if at least one of them are different.
-    func isObjectsPositionChanged() -> Bool{
-        return true
     }
     
     private func startGizmo() -> GizmoView{
@@ -126,6 +202,7 @@ class Physics2D: ObservableObject{
             gizmoView = startGizmo()
         }
         gizmoView!.activate()
+        gizmoView!.needsDisplay = true
     }
     
     func hideGizmo(){
@@ -134,5 +211,19 @@ class Physics2D: ObservableObject{
             gizmoView!.deactivate()
             gizmoView!.needsDisplay = true // redraw to hide
         }
+    }
+    
+    static func copyObject(original: Object2D) -> Object2D{
+        if original is Rectangle{
+            return (original as! Rectangle).copy()
+        }else if original is Line{
+            return (original as! Line).copy()
+        }else{
+            return (original as! Circle).copy()
+        }
+    }
+    
+    static func copyObjects(original: [Object2D]) -> [Object2D]{
+        return original.map( {copyObject(original: $0)} )
     }
 }
